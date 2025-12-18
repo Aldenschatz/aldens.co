@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alden Schatz</title>
+  <style>
+    :root {
+      --bg-color: #FAFAFA;
+      --text-primary: #111111;
+      --text-secondary: #555555;
+      --text-tertiary: #888888;
+      --accent: #000000;
+      --accent-hover: #333333;
+      --border-color: #E0E0E0;
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-primary);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.7;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    h1, h2, h3 {
+      color: var(--text-primary);
+      font-weight: 500;
+      letter-spacing: -0.03em;
+    }
+
+    h1 {
+      font-size: 48px;
+      line-height: 1.15;
+      margin: 0 0 16px;
+      font-weight: 600;
+    }
+
+    .hero {
+      padding: 120px 0 60px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin: 0 0 24px;
+      color: var(--text-tertiary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title::after {
+      content: '+';
+      font-size: 16px;
+      font-weight: 400;
+      transition: transform 0.2s ease;
+    }
+
+    .section-title:not(.collapsed)::after {
+      content: '−';
+    }
+
+    .section-content {
+      transition: max-height 0.3s ease-out, opacity 0.2s ease;
+      overflow: hidden;
+      max-height: 2000px;
+      opacity: 1;
+    }
+
+    .section-content.collapsed {
+      max-height: 0;
+      opacity: 0;
+    }
+
+    section {
+      padding: 48px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .lead {
+      font-size: 17px;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      margin: 0 0 20px;
+    }
+
+    .nav-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 32px 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-button {
+      display: inline-block;
+      padding: 8px 16px;
+      background: transparent;
+      color: var(--text-secondary);
+      text-decoration: none;
+      border-radius: 100px;
+      font-size: 14px;
+      border: 1px solid var(--border-color);
+      transition: all 0.15s ease;
+    }
+
+    .nav-button:hover {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .achievements-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .achievements-list li {
+      color: var(--text-secondary);
+      padding: 12px 0;
+      font-size: 16px;
+      border-bottom: 1px solid var(--border-color);
+      transition: color 0.15s ease;
+    }
+
+    .achievements-list li:last-child {
+      border-bottom: none;
+    }
+
+    .achievements-list li:hover {
+      color: var(--text-primary);
+    }
+
+    .achievements-list ul {
+      list-style: none;
+      padding-left: 20px;
+      margin-top: 8px;
+    }
+
+    .achievements-list ul li {
+      font-size: 15px;
+      padding: 6px 0;
+      border: none;
+    }
+
+    .link-button {
+      display: inline-block;
+      padding: 12px 24px;
+      background: var(--accent);
+      color: white;
+      text-decoration: none;
+      border-radius: 100px;
+      margin: 8px 12px 8px 0;
+      font-weight: 500;
+      font-size: 14px;
+      transition: all 0.15s ease;
+    }
+
+    .link-button:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+
+    a {
+      color: var(--text-primary);
+      text-decoration: underline;
+      text-decoration-color: var(--border-color);
+      text-underline-offset: 3px;
+      transition: text-decoration-color 0.15s ease;
+    }
+
+    a:hover {
+      text-decoration-color: var(--text-primary);
+    }
+
+    .footer-text {
+      color: var(--text-tertiary);
+      padding: 48px 0;
+      font-size: 14px;
+    }
+
+    .contact {
+      border-bottom: none;
+    }
+
+    .role-description {
+      color: var(--text-secondary);
+      font-size: 16px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 36px;
+      }
+      
+      .hero {
+        padding: 80px 0 48px;
+      }
+      
+      section {
+        padding: 36px 0;
+      }
+    }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const sections = document.querySelectorAll('section');
+      
+      sections.forEach(section => {
+        const title = section.querySelector('.section-title');
+        const content = section.querySelector(':scope > *:not(.section-title)');
+        if (title && content) {
+          // Only collapse sections that aren't About or Contact
+          if (!section.classList.contains('about') && !section.classList.contains('contact')) {
+            content.classList.add('collapsed');
+            title.classList.add('collapsed');
+          }
+          
+          title.addEventListener('click', () => {
+            content.classList.toggle('collapsed');
+            title.classList.toggle('collapsed');
+          });
+        }
+      });
+    });
+  </script>
+</head>
+<body>
+
+  <div class="container">
+    <header class="hero">
+      <h1>Alden Schatz</h1>
+    </header>
+
+    <main>
+      <section class="about">
+        <h2 class="section-title">About</h2>
+        <div class="section-content">
+          <p class="lead">
+            Hey - I'm Alden. I work with venture-backed startups at <a href="https://stripe.com/" target="_blank">Stripe</a>, helping ambitious companies scale. Before this, I co-founded Waddle and spent time mentoring early-stage founders.
+          </p>
+          <p class="lead">
+            I recently moved to San Francisco — a childhood dream. I'm drawn to the energy here: the innovation, the people, and the genuine excitement around building cool things. This site is a place to share what I'm working on, what I'm curious about, and what inspires me.
+          </p>
+        </div>
+      </section>
+
+      <div class="nav-buttons">
+        <a href="#interesting" class="nav-button">Questions I'm Asking</a>
+        <a href="#places" class="nav-button">Places to Visit</a>
+        <a href="#books" class="nav-button">Books to Read</a>
+        <a href="#writings" class="nav-button">Writings</a>
+        <a href="#contact" class="nav-button">Contact</a>
+        <a href="#experience" class="nav-button">Experience</a>
+      </div>
+
+      <section id="interesting" class="interesting">
+        <h2 class="section-title">Questions I'm Asking</h2>
+        <div class="section-content">
+          <p class="lead">I'm constantly exploring systems where people, incentives, and ideas intersect. Here are some of the questions that guide my curiosity.</p>
+          <ul class="achievements-list">
+            <li>How are communities and networks built and sustained?</li>
+            <li>What drives the psychology of decision-making under uncertainty?</li>
+            <li>How do people choose to lead, and why do others follow?</li>
+            <li>How do cities foster innovation and creativity?</li>
+            <li>How will financial infrastructure evolve in the next decade?</li>
+            <li>What role will agentic commerce, stablecoins, and programmable money play in the economy?</li>
+            <li>How can startups serve as vehicles for innovation?</li>
+            <li>What are the underlying incentives and economics behind sports?</li>
+            <li>How do markets function as coordination mechanisms?</li>
+            <li>Why do power laws and asymmetric outcomes dominate systems?</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="places" class="places">
+        <h2 class="section-title">Places I Want to Visit</h2>
+        <div class="section-content">
+          <p class="lead">I've been fortunate to visit 30 countries so far, and I make it a goal to explore at least 1-2 new countries each year.</p>
+          <ul class="achievements-list">
+            <li>Patagonia (Chile/Argentina)</li>
+            <li>Hong Kong</li>
+            <li>Nepal</li>
+            <li>Namibia</li>
+            <li>South Korea</li>
+            <li>Colombia</li> 
+            <li>Portugal</li>
+            <li>And many many more</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="books" class="books">
+        <h2 class="section-title">Books I Want to Read</h2>
+        <div class="section-content">
+          <ul class="achievements-list">
+            <li>The Beginning of Infinity - David Deutsch</li>
+            <li>Zero to One - Peter Thiel</li>
+            <li>Atomic Habits - James Clear</li>
+            <li>Into the Wild - Jon Krakauer</li>
+            <li>On Writing - Stephen King</li>
+            <li>Greenlights - Matthew McConaughey</li>
+            <li>Man's Search for Meaning - Viktor E. Frankl</li>
+            <li>When Breath Becomes Air - Paul Kalanithi</li>
+            <li>Rising Strong - Brené Brown</li>
+            <li>Relentless - Tim Grover</li>
+            <li>The Death and Life of Great American Cities - Jane Jacobs</li>
+            <li>High Growth Handbook - Elad Gil</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="writings" class="writings">
+        <h2 class="section-title">Writings</h2>
+        <div class="section-content">
+          <p class="lead">Coming soon...</p>
+        </div>
+      </section>
+
+      <section id="experience" class="experience">
+        <h2 class="section-title">Experience</h2>
+        <div class="section-content">
+          <ul class="achievements-list">
+            <li>
+              GTM Stripe - Venture Backed Startups (2023-Present)
+              • 2024 President's Club Winner
+              <br><br>
+              Waddle - Co-Founder (2020-2023)
+              • Built a closed-loop network of student bank accounts
+              • <a href="https://www.bizjournals.com/portland/inno/stories/inno-insights/2021/10/01/inno-under-25-just-getting-started.html" target="_blank">Named one of Oregon's 15 under 25</a> - Portland Business Journal
+              <br><br>
+              Oregon Innovation Challenge - Founding Member (2022-2023)
+              • Created university student incubator program with 200+ participating teams each year
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="contact" class="contact">
+        <h2 class="section-title">Contact</h2>
+        <div class="section-content">
+          <p class="role-description">I'd love to hear from you — whether it's about Stripe, startups, building things, or just life. Best way to reach me is via email or LinkedIn.</p>
+          <div class="links">
+            <a href="https://www.linkedin.com/in/alden-s/" target="_blank" class="link-button">LinkedIn</a>
+            <a href="mailto:aldenschatz5@gmail.com" class="link-button">Email</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p class="footer-text">Based in San Francisco Bay Area</p>
+    </footer>
+  </div>
+
+</body>
+</html>
